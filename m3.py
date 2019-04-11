@@ -1,20 +1,14 @@
 import cv2 
+from Utils import *
 from PID import PID
-from RegLine import RegLine
 from RASPI import RASPI
 import time
 import numpy as np
 # import dlib
 from WebCam import WebCam
-from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras.models import load_model
-# model = load_model('sv3.keras')
-from tensorflow.keras.models import model_from_json
-f = open('my_model_a.json', 'r')
-json_string = f.readline()
-f.close()
-model = model_from_json(json_string)
-model.load_weights('my_model_weights.h5')
+from RegLine import RegLine
+from RegSvet import RegSvet
+
 
 servo_pid = PID(0.21, 0, 0)
 servo_center = 92.5
@@ -82,37 +76,27 @@ def cross(v):
     elif v == 1:
         go_right()
 
-
-labels = ['red', 'yellow', 'green']
-def predict_label(image):
-    image = cv2.resize(image, (38, 38))
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    image = img_to_array(image)
-    image = np.expand_dims(image, axis=0)
-    image = np.array(image, dtype="float") / 255.0
-    pre = model.predict(image)[0]
-    i_max = 0
-    for i in range(len(pre)):
-        if pre[i_max] < pre[i]:
-            i_max = i
-    return labels[i_max]
-
 def wait_svet():
+    rs.reg_toggle(True)
     while True:
-        frame = vs.read()
-        # boxes = model_detector(frame)
-        label = "red"
-        
-        crop = frame[img_size[1]//10*8:img_size[1]//10*10, img_size[0]//10*0:img_size[1]//10*5].copy()
-        label = predict_label(crop)
-        if label == True:
+        if rs.get_label() == "green":
             break
+    rs.reg_toggle(False)
     
 # cross(0)
 
 # time.sleep(3)
 rl = RegLine(img_size)
-wait_svet()
+rs = RegSvet(vs)
+
+rs.load_model_nn("my_model_weights.h5", "my_model_a.json")
+rs.load_model_svm("tld.svm")
+
+rs.start()
+rs.reg_toggle(True)
+
+
+# wait_svet()
 
 while True:
     # ret, frame = cap.read()
@@ -135,16 +119,26 @@ while True:
         print("stop")
         
         stop()
+        wait_svet()
         if cross_id == 1:
             break
         cross(-1)
         # cross_id+=1
 
-    
-    
+    print(rs.get_label())
+    if (rs.get_label() != "none"):
+        print("stop")
+        stop()
+        rs.reg_toggle(False)
+        @delay(1.5)
+        def stop_call():
+            rs.reg_toggle(False)
+        stop_call()
+
     servo_angle = servo_center+servo_pid.calc(e*0.725 + e2*0.33)    # 0.27
     # print(servo_angle)
     # cv2.waitKey(1)
     rpi.set_servo(servo_angle)
 vs.stop()
-rpi.stop_enc()
+rs.stop()
+rpi.stop_enc()qwe

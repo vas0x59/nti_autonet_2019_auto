@@ -58,8 +58,7 @@ class RegSvet:
             self.label = self.reg_svet()
     def get_label(self):
         return self.label
-
-    def init_reg(self):
+    def start(self):
         t = Thread(target=self.update, args=())
         t.daemon = True
 		t.start()
