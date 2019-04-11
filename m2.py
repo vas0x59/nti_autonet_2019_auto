@@ -102,10 +102,6 @@ while True:
         if cross_id == 1:
             break
         cross(-1)
-        # cross_id+=1
-
-    
-    
     servo_angle = servo_center+servo_pid.calc(e*0.725 + e2*0.33)    # 0.27
     # print(servo_angle)
     # cv2.waitKey(1)
