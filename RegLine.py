@@ -23,13 +23,13 @@ class RegLine:
         resized = img.copy()
         r_channel=resized[:,:,2]
         binary=np.zeros_like(r_channel)
-        binary[(r_channel>220)]=1
+        binary[(r_channel>180)]=1
         #if show==True:("r_channel",binary)
         
         hls=cv2.cvtColor(resized,cv2.COLOR_BGR2HLS)
         s_channel = resized[:, :, 2]
         binary2 = np.zeros_like(s_channel)
-        binary2[(r_channel > 220)] = 1
+        binary2[(r_channel > 180)] = 1
 
         allBinary= np.zeros_like(binary)
         allBinary[((binary==1)|(binary2==1))]=255

@@ -51,7 +51,7 @@ def go_forward():
     wait_enc(5)
 
 def go_right():
-    rpi.set_servo(servo_center-17)
+    rpi.set_servo(servo_center-19)
     rpi.set_motor(sspeed)
     wait_enc(3)
 
@@ -60,7 +60,7 @@ def go_left():
     rpi.set_motor(sspeed)
     # wait_enc(1)
     time.sleep(0.76)
-    rpi.set_servo(servo_center+18)
+    rpi.set_servo(servo_center+19)
     rpi.set_motor(sspeed)
     wait_enc(3)
 

@@ -44,7 +44,7 @@ while True:
 	if key == ord("q"):
 		break
 	elif key == ord("i"):
-		cv2.imwrite('l2' + str(i) + '.png', frame)
+		cv2.imwrite('l3' + str(i) + '.png', frame)
 		i += 1
 
 # do a bit of cleanup
