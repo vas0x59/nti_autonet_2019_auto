@@ -4,7 +4,7 @@ team L22_AutoNet - the 2nd place
 ***
 final auto - by Vasily Yuryev\
 final copter - by Georgy\
-final 3d model - by Yaromir\
+final 3d model - by Yaromir
 
 ***
 
