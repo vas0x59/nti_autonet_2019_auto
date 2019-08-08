@@ -1,6 +1,6 @@
 # nti_autonet_auto
 
-team L22_AutoNet - the 2nd place
+team **L22_AutoNet** - the **2nd** place
 ***
 final auto - by Vasily Yuryev\
 final copter - by Georgy\
